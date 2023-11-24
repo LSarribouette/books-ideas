@@ -1,0 +1,9 @@
+main {
+  margin-top: 2rem;
+}
+
+hgroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
