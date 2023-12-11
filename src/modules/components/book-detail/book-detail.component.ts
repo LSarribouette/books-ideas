@@ -1,16 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BookModel} from "./book.model";
+import {BookDetailModel} from "./book-detail.model";
 
 @Component({
   selector: 'ls-book',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './book.component.html',
-  styleUrl: './book.component.css'
+  templateUrl: './book-detail.component.html',
+  styleUrl: './book-detail.component.css'
 })
-export class BookComponent {
-  @Input({required: true}) book!: BookModel;
+export class BookDetailComponent {
+  @Input({required: true}) book!: BookDetailModel;
 
   toggleDisplayBook() {
     this.book.selected = !this.book.selected;

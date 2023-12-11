@@ -1,4 +1,4 @@
-export interface BookModel {
+export interface BookDetailModel {
   title: string;
   full_title?: string;
   authors: Array<string>;
