@@ -17,11 +17,14 @@ export class BooksListComponent {
   constructor(private booksListService: BooksListService) { }
 
   ngOnInit(): void {
-    this.getBooks();
+    this.getData();
   }
 
-  getBooks(): void {
-    this.booksListService.getBooks()
-      .subscribe(books => this.books = books);
+  // getBooks(): void {
+  //   this.booksListService.getBooks()
+  //     .subscribe(books => this.books = books);
+  // }
+  getData(): void {
+    this.booksListService.getData().subscribe(res => console.log(res));
   }
 }

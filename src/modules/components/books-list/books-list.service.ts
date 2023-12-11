@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import {BookDetailModel} from "../book-detail/book-detail.model";
 import {Observable} from "rxjs";
-import {MockBooksService} from "../../core/domain/mock/mock-books.service";
+import {BookService} from "../../core/domain/book/book.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksListService {
 
-  constructor(private bookService: MockBooksService) { }
+  constructor(private bookService: BookService) { }
 
-  getBooks(): Observable<Array<BookDetailModel>> {
-    return this.bookService.getBooks();
+  // getBooks(): Observable<Array<BookDetailModel>> {
+  //   return this.bookService.getBooks();
+  // }
+  getData(): Observable<any> {
+    return this.bookService.getData();
   }
 }
