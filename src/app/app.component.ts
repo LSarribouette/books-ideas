@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BooksComponent} from "./books/books.component";
-import {RandomSubjectComponent} from "./random-subject/random-subject.component";
-import {SearchComponent} from "./search/search.component";
+import {BooksComponent} from "../modules/components/books/books.component";
+import {RandomSubjectComponent} from "../modules/components/random-subject/random-subject.component";
+import {SearchComponent} from "../modules/components/search/search.component";
 
 @Component({
   selector: 'ls-root',

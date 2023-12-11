@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BookModel} from "./book.modele";
+import {BookModel} from "./book.model";
 
 @Component({
   selector: 'ls-book',
@@ -11,9 +11,8 @@ import {BookModel} from "./book.modele";
 })
 export class BookComponent {
   @Input({required: true}) book!: BookModel;
-  @Output() readonly bookSelected = new EventEmitter<BookModel>();
 
-  selectBook() {
-    this.bookSelected.emit(this.book);
+  toggleDisplayBook() {
+    this.book.selected = !this.book.selected;
   }
 }

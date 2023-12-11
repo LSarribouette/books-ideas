@@ -1,0 +1,3 @@
+<article class="flex" *ngIf="books.length > 0">
+  <ls-book *ngFor="let currentBook of books" [book]="currentBook"/>
+</article>

@@ -1,0 +1,12 @@
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: stretch;
+  align-self: stretch;
+}
+
+.flex ls-book {
+  flex-grow: 1;
+}

@@ -9,4 +9,7 @@ export interface BookModel {
   publication_date: string;
   publishers?: Array<string>;
   number_pages?: number;
+  cover?: string;
+  open_library_url?: string;
+  selected: boolean;
 }
