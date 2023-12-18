@@ -34,38 +34,34 @@ export class BooksListService {
 
   getBooksBySubject(subject: string): Observable<any> {
     return this.bookService.getBooksBySubject(subject).pipe(filter( x => x.works));
-
-    // return this.bookService.getBooksBySubject(subject);
-    // this.bookService.getBooksBySubject(subject).subscribe(result => {
-    //   // pipe > map ...
-    //   this.books = result;
-    //   console.log(this.books);
-    //   // this.books = result.works;
-    //   return this.books;
-    //   // console.log(this.books);
-    // });
-    // return this.books;
   }
 
   //--- MAP
   public mapWorksToBooks(works: Array<WorkModel>): Array<BookDetailModel> {
-    let books: Array<BookDetailModel> = [];
-    books = works.map(this.mapWorkToBook);
-    return books;
+    return works.map(this.mapWorkToBook);
   }
+
   public mapWorkToBook(work: WorkModel): BookDetailModel {
-
-    const coverUrl: string = `https://covers.openlibrary.org/b/id/${work.cover_id.toString()}-L.jpg`;
-
-    if (work.cover_id == null) {
-      work.cover_id = 0;
+    let cover = "default"
+    if (work.cover_id !== null) {
+      cover = work.cover_id.toString();
     }
+    const coverUrl: string = `https://covers.openlibrary.org/b/id/${cover}-L.jpg`;
+
+    let first_publish_year = "";
+    if (work.first_publish_year !== null) {
+      first_publish_year = work.first_publish_year.toString();
+    }
+
+    let open_library_url: string = `https://openlibrary.org${work.key}`;
+
     return {
       title: work.title,
+      work_key: work.key,
       authors: work.authors,
-      first_publish_year: work.first_publish_year.toString(),
-      cover: work.cover_id.toString(),
-      open_library_url: coverUrl,
+      first_publish_year: first_publish_year,
+      cover: coverUrl,
+      open_library_url: open_library_url,
       selected: false
     }
   }

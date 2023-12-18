@@ -13,17 +13,11 @@ import {BooksListService} from "./books-list.service";
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksListComponent {
-    // subject: string = this.getRandomSubject();
 
     subject: string = "";
-    book: BookDetailModel = {title: "", authors: [], first_publish_year: "", selected: false};
     books: Array<BookDetailModel> = [];
 
-    constructor(
-        // private subjectService: SubjectService,
-        // private bookService: BookService,
-        private booksListService: BooksListService
-        ) {
+    constructor(private booksListService: BooksListService) {
     }
 
     ngOnInit() {
@@ -34,23 +28,15 @@ export class BooksListComponent {
         this.books = [];
         this.subject = this.booksListService.getRandomSubject();
         this.getBooksBySubject();
-        // return this.subject;
     };
 
     private getBooksBySubject() {
         this.booksListService.getBooksBySubject(this.subject.replace(' ', '_'))
           .subscribe(result => {
-            this.books = result.works;
+            this.books = this.booksListService.mapWorksToBooks(result.works);
+            // this.books = result.works;
             console.log(this.books);
           });
-    // .subscribe(result => this.books = this.booksListService.mapWorksToBooks(result));
-        // this.bookService.getBooksBySubject(this.subject.replace(' ', '_')).subscribe(result => {
-        //     this.subjectResult = result;
-        //     console.log(this.subjectResult);
-        //     this.books = result.works;
-        //     // console.log(this.books);
-        // });
-        // return this.books;
     }
 
     // subject: string = this.subjectService.subject;
@@ -66,10 +52,9 @@ export class BooksListComponent {
     //     this.getBooksBySubject(this.subject);
     // }
 
-
     // ngOnChange(): void {
     //     this.getBooksBySubject(this.subject);
-    //     console.log("changement subjet")
+    //     console.log("changement sujet")
     // }
 
     // getBooks(): void {

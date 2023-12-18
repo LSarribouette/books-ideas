@@ -1,6 +1,7 @@
 import {AuthorModel} from "../../core/domain/author/author.model";
 
 export interface BookDetailModel {
+  work_key: string;
   title: string;
   // full_title?: string;
   authors: Array<AuthorModel>;
