@@ -1,3 +1,7 @@
+<hgroup class="subject">
+  <h2>A few books' ideas on <strong>{{ subject }}</strong></h2>
+  <p role="button" class="outline" (click)="getRandomBooks()">Random subject</p>
+</hgroup>
 <article class="flex" *ngIf="books.length > 0">
   <ls-book *ngFor="let currentBook of books" [book]="currentBook"/>
 </article>
