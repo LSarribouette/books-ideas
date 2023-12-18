@@ -39,7 +39,11 @@ export class BooksListComponent {
 
     private getBooksBySubject() {
         this.booksListService.getBooksBySubject(this.subject.replace(' ', '_'))
-          .subscribe(x => this.books=x);
+          .subscribe(result => {
+            this.books = result.works;
+            console.log(this.books);
+          });
+    // .subscribe(result => this.books = this.booksListService.mapWorksToBooks(result));
         // this.bookService.getBooksBySubject(this.subject.replace(' ', '_')).subscribe(result => {
         //     this.subjectResult = result;
         //     console.log(this.subjectResult);

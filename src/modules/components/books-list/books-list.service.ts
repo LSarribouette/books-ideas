@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BookDetailModel} from "../book-detail/book-detail.model";
-import {map, Observable} from "rxjs";
+import {filter, map, Observable} from "rxjs";
 import {BookService} from "../../core/domain/book/book.service";
 import {SubjectResultModel} from "../../core/domain/subject/subject-result.model";
 import {WorkModel} from "../../core/domain/work/work.model";
@@ -11,7 +11,7 @@ import {WorkModel} from "../../core/domain/work/work.model";
 export class BooksListService {
 
   // subjectResult: SubjectResultModel = {key:"" ,name:"", work_count:0, works: []};
-  books: Array<BookDetailModel> = [];
+  // books: Array<BookDetailModel> = [];
 
 
   constructor(private bookService: BookService) { }
@@ -33,8 +33,7 @@ export class BooksListService {
   };
 
   getBooksBySubject(subject: string): Observable<any> {
-
-    return this.bookService.getBooksBySubject(subject).pipe(map( x => console.log(x)));
+    return this.bookService.getBooksBySubject(subject).pipe(filter( x => x.works));
 
     // return this.bookService.getBooksBySubject(subject);
     // this.bookService.getBooksBySubject(subject).subscribe(result => {
@@ -49,10 +48,18 @@ export class BooksListService {
   }
 
   //--- MAP
-  private mapWorkToBook(work: WorkModel): BookDetailModel {
+  public mapWorksToBooks(works: Array<WorkModel>): Array<BookDetailModel> {
+    let books: Array<BookDetailModel> = [];
+    books = works.map(this.mapWorkToBook);
+    return books;
+  }
+  public mapWorkToBook(work: WorkModel): BookDetailModel {
 
     const coverUrl: string = `https://covers.openlibrary.org/b/id/${work.cover_id.toString()}-L.jpg`;
 
+    if (work.cover_id == null) {
+      work.cover_id = 0;
+    }
     return {
       title: work.title,
       authors: work.authors,
@@ -62,6 +69,4 @@ export class BooksListService {
       selected: false
     }
   }
-
-
 }
