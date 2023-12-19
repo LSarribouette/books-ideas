@@ -8,10 +8,6 @@
     <img [hidden]="this.book.selected" [src]=book.cover alt="Book's cover">
   </div>
   <small [hidden]="!this.book.selected">
-    <p>Subjects</p>
-    <p>Languages</p>
-    <p>Publishers</p>
-    <p>Number of pages</p>
     <a [href]="book.open_library_url">Fiche Open Library</a>
   </small>
 </article>

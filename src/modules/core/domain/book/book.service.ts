@@ -19,13 +19,6 @@ export class BookService {
     //   return this.http.get(this.url);
     // }
 
-    // getBooksBySubject(subject: string): Observable<any> {
-    //   return this.http.get(this.subjectUrl+subject+'.json', {
-    //     params: {details: "false", limit:"12", sort:"random"
-    //     }}).pipe(this.mapWorkToBook());
-    // }
-
-    //--- GET
     getBooksBySubject(subject: string): Observable<any> {
 
         const SUBJECT_URL: string = `https://openlibrary.org/subjects/${subject}.json`;
@@ -36,22 +29,11 @@ export class BookService {
 
     }
 
-    // //--- MAP
-    // private mapWorkToBook(work: WorkModel): BookDetailModel {
-    //
-    //     const coverUrl: string = `https://covers.openlibrary.org/b/id/${work.cover_id.toString()}-L.jpg`;
-    //
-    //     return {
-    //         title: work.title,
-    //         authors: work.authors,
-    //         first_publish_year: work.first_publish_year.toString(),
-    //         cover: work.cover_id.toString(),
-    //         open_library_url: coverUrl,
-    //         selected: false
-    //     }
-    // }
+    getBookDetails(book: BookDetailModel): Observable<any> {
 
-    completeBook(book: BookDetailModel): BookDetailModel {
-        return book;
+        const QUERY_URL: string = `http://openlibrary.org/query.json?type=/type/edition&works=${book.work_key}&authors&publish_date&description`;
+        const SEARCH_URL: string = `https://openlibrary.org/search.json?q=The%20Handmaid%27s%20Tale`;
+
+        return this.http.get(SEARCH_URL);
     }
 }
