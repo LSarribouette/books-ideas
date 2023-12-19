@@ -10,11 +10,34 @@ import {WorkModel} from "../../core/domain/work/work.model";
 })
 export class BooksListService {
 
+  //jamais
   // subjectResult: SubjectResultModel = {key:"" ,name:"", work_count:0, works: []};
   // books: Array<BookDetailModel> = [];
 
+  // state programming
 
   constructor(private bookService: BookService) { }
+
+  initBookList(): BooksList { // état initial
+    return {
+      //...
+      // this.books = [];
+      // this.subject = this.booksListService.getRandomSubject();
+      // this.search = "";
+    }
+  }
+
+  // foncitons suivantes : accès état initial pour calculer les états suivants
+  // test : je vérifie que mon état de sortie est le bon
+  // surtout tests sur services (Karma unitaires != Playwright... end-to-end)
+  loadBookList(currentState: BooksList): Observable<BooksList> {
+    //j'appelle + pipe + map
+    // je lis currentState.subject
+  }
+
+  search(currentState, searchValue): Observable<BooksList> {
+
+  }
 
   // getBooks(): Observable<Array<BookDetailModel>> {
   //   return this.bookService.getBooks();
@@ -24,7 +47,7 @@ export class BooksListService {
   // }
 
   getRandomSubject(): string {
-    const subjects: Array<string> = [
+    const subjects: Array<string> = [ // type ?
       'climate change', 'science', 'romance', 'comedy', 'history', 'geography', 'literature', 'education', 'dystopias', 'culture'
     ];
     let randomIndex = Math.floor(Math.random() * (subjects.length));
@@ -33,7 +56,11 @@ export class BooksListService {
   };
 
   getBooksBySubject(subject: string): Observable<any> {
-    return this.bookService.getBooksBySubject(subject).pipe(filter( x => x.works));
+    return this.bookService.getBooksBySubject(subject);
+  }
+
+  getSearchResults(search: string): Observable<any> {
+    return this.bookService.getSearchResults(search);
   }
 
   //--- MAP

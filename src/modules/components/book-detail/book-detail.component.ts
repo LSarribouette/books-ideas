@@ -12,19 +12,4 @@ import {BookDetailService} from "./book-detail.service";
 })
 export class BookDetailComponent {
   @Input({required: true}) book!: BookDetailModel;
-
-  constructor(private bookDetailService: BookDetailService) {
-  }
-
-  toggleDisplayBook() {
-    this.book.selected = !this.book.selected;
-
-    if (this.book.selected) {
-      this.getBookDetails(this.book);
-    }
-  }
-
-  private getBookDetails(book: BookDetailModel) {
-    this.bookDetailService.getBookDetail(book).subscribe(x => console.log(x));
-  }
 }

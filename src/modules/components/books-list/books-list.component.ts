@@ -5,75 +5,106 @@ import {BookDetailComponent} from "../book-detail/book-detail.component";
 import {BooksListService} from "./books-list.service";
 
 @Component({
-    selector: 'ls-books',
-    standalone: true,
-    imports: [CommonModule, BookDetailComponent],
-    templateUrl: './books-list.component.html',
-    styleUrl: './books-list.component.css',
-    // changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ls-books',
+  standalone: true, //nouvelle syntaxe : à la place des modules ? puisque un comp=un module
+  imports: [CommonModule, BookDetailComponent],
+  templateUrl: './books-list.component.html',
+  styleUrl: './books-list.component.css',
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksListComponent {
+  // !! qualifiers private et public = pas facultatif
 
-    subject: string = "";
-    books: Array<BookDetailModel> = [];
+  //modèle de données : BookList.model
+  // element de mon composant
+  //cote service : initBookList qui me retourne les objets initialisés ocmme ça
+  //                loadBookList aussi
+  // public subject = ""; //self explanatory : pas besoin de préciser le type si affectation évidente
+  // public search = "";
+  // public books: BookDetailModel[] = [];
 
-    constructor(private booksListService: BooksListService) {
-    }
+  public bookList: BookList;
 
-    ngOnInit() {
-        this.getRandomBooks();
-    }
+  constructor(private booksListService: BooksListService) {
+  }
 
-    getRandomBooks(): void {
-        this.books = [];
-        this.subject = this.booksListService.getRandomSubject();
-        this.getBooksBySubject();
-    };
+  //tout ce dont j'ai besoin !
+  ngOnInit() {
+    //lazy loading algorithm
+    this.bookList = this...initBookList()
+    loadBookList().subscribe(newBookList => {
+      this.bookList = newBookList
+    })
+    // this.getRandomBooks();
+  }
 
-    private getBooksBySubject() {
-        this.booksListService.getBooksBySubject(this.subject.replace(' ', '_'))
-          .subscribe(result => {
-            this.books = this.booksListService.mapWorksToBooks(result.works);
-            // this.books = result.works;
-            console.log(this.books);
-          });
-    }
+  //je get pas, je initRandomBook
+  //pas pure car this.machin
+  //pure = stable
+  getRandomBooks(): void {
+    this.books = [];
+    this.subject = this.booksListService.getRandomSubject();
+    this.getBooksBySubject();
+  };
 
-    // subject: string = this.subjectService.subject;
+  // loadBookBySubj
+  //- get si je retourne un truc
+  private getBooksBySubject() {
+    this.booksListService.getBooksBySubject(this.subject.replace(' ', '_'))
+      .subscribe(result => {
+        this.books = this.booksListService.mapWorksToBooks(result.works);
+        // this.books = result.works;
+        console.log(this.books);
+      });
+  }
 
-    // constructor(
-    //     private booksListService: BooksListService,
-    //     // private subjectService: SubjectService,
-    //     // private cdr: ChangeDetectorRef
-    // ) { }
+  getSearchResults(search: string) {
+    // this.books = [];
+    this.search = search;
+    console.log("Recherche : " + this.search);
+    this.booksListService.getSearchResults(this.search).subscribe(result => {
+      // this.books = this.booksListService.mapWorksToBooks(result.works);
+      console.log(result);
+    })
+  }
 
-    // ngOnInit(): void {
-    //     // this.getData();
-    //     this.getBooksBySubject(this.subject);
-    // }
+  // subject: string = this.subjectService.subject;
 
-    // ngOnChange(): void {
-    //     this.getBooksBySubject(this.subject);
-    //     console.log("changement sujet")
-    // }
+  // constructor(
+  //     private booksListService: BooksListService,
+  //     // private subjectService: SubjectService,
+  //     // private cdr: ChangeDetectorRef
+  // ) { }
 
-    // getBooks(): void {
-    //   this.booksListService.getBooks()
-    //     .subscribe(books => this.books = books);
-    // }
-    // getData(): void {
-    //     this.booksListService.getData().subscribe(res => console.log(res));
-    // }
+  // ngOnInit(): void {
+  //     // this.getData();
+  //     this.getBooksBySubject(this.subject);
+  // }
 
-    // getBooksBySubject(): void {
-    //     // this.booksListService.getBooksBySubject().subscribe(res => {
-    //     //     console.log(res);
-    //     //     // this.cdr.markForCheck();
-    //     // });
-    //     console.log("BooksListComponent");
-    // }
+  // ngOnChange(): void {
+  //     this.getBooksBySubject(this.subject);
+  //     console.log("changement sujet")
+  // }
 
-    // getBooksBySearch(search: string): void {
-    //     console.log("recherche");
-    // }
+  // getBooks(): void {
+  //   this.booksListService.getBooks()
+  //     .subscribe(books => this.books = books);
+  // }
+  // getData(): void {
+  //     this.booksListService.getData().subscribe(res => console.log(res));
+  // }
+
+  // getBooksBySubject(): void {
+  //     // this.booksListService.getBooksBySubject().subscribe(res => {
+  //     //     console.log(res);
+  //     //     // this.cdr.markForCheck();
+  //     // });
+  //     console.log("BooksListComponent");
+  // }
+
+  // getBooksBySearch(search: string): void {
+  //     console.log("recherche");
+  // }
+
+
 }

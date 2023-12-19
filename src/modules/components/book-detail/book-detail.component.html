@@ -1,14 +1,14 @@
-<article (click)=toggleDisplayBook()>
+<article>
   <header>
     <h4>{{ book.title }}</h4>
     <div *ngFor="let author of book.authors">{{ author.name }}</div>
-    <strong>{{ book.first_publish_year }}</strong>
+    <div><strong>{{ book.first_publish_year }}</strong></div>
+    <small>
+      <a [href]="book.open_library_url">Fiche Open Library</a>
+    </small>
   </header>
-  <div>
-    <img [hidden]="this.book.selected" [src]=book.cover alt="Book's cover">
+  <div *ngIf="book.cover != 'https://covers.openlibrary.org/b/id/default-L.jpg'">
+    <img [src]=book.cover alt="Book's cover">
   </div>
-  <small [hidden]="!this.book.selected">
-    <a [href]="book.open_library_url">Fiche Open Library</a>
-  </small>
 </article>
 

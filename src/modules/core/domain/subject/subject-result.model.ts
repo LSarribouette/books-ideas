@@ -1,8 +1,9 @@
 import {WorkModel} from "../work/work.model";
 
-export interface SubjectResultModel {
+export interface SubjectResultModel { //pas besoin ? // pas BlaModel juste Bla
+  //metadata
     key: string,
     name: string,
     work_count: number,
-    works: Array<WorkModel>
+    works: Array<WorkModel> // juste works: Work[] (rigoureusement identique)
 }
