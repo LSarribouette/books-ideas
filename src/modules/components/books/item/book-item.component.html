@@ -4,11 +4,10 @@
     <div *ngFor="let author of book.authors">{{ author.name }}</div>
     <div><strong>{{ book.first_publish_year }}</strong></div>
     <small>
-      <a [href]="book.open_library_url">Fiche Open Library</a>
+      <a [href]="book.url_open_library">Fiche Open Library</a>
     </small>
   </header>
-  <div *ngIf="book.cover != 'https://covers.openlibrary.org/b/id/default-L.jpg'">
-    <img [src]=book.cover alt="Book's cover">
+  <div *ngIf="book.cover_url != 'https://covers.openlibrary.org/b/id/default-L.jpg'">
+    <img [src]=book.cover_url alt="Book's cover">
   </div>
 </article>
-

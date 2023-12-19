@@ -1,4 +1,4 @@
-export interface AuthorModel {
-    key: string,
-    name: string
+export interface Author {
+  key: string,
+  name: string
 }

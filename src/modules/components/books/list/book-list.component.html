@@ -1,0 +1,10 @@
+<!--<div (keyup.enter)="getSearchResults(search.value)">-->
+<!--  <input type="search" id="search" name="search" placeholder="Search book, author, subject..." #search>-->
+<!--</div>-->
+<hgroup class="subject">
+  <h2>A few books' ideas on <strong>{{ bookList.subject }}</strong></h2>
+  <p role="button" class="outline" (click)="loadRandomBookList()">Random subject</p>
+</hgroup>
+<article class="flex" *ngIf="bookList.bookItems.length > 0">
+  <ls-book-item *ngFor="let currentBook of bookList.bookItems" [book]="currentBook"/>
+</article>

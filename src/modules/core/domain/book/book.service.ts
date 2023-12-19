@@ -1,61 +1,57 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {filter, map, Observable} from "rxjs";
-import {SubjectResultModel} from "../subject/subject-result.model";
-import {WorkModel} from "../work/work.model";
-import {BookDetailModel} from "../../../components/book-detail/book-detail.model";
+import {map, Observable} from "rxjs";
+import {Book} from "./book.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class BookService {
-  // private url = "https://openlibrary.org/works/OL675783W.json";
-  // private subjectUrl = "https://openlibrary.org/subjects/";
 
-  constructor(private http: HttpClient) {
-  }
+  public constructor(private http: HttpClient) { }
 
-  // getData(): Observable<any> {
-  //   return this.http.get(this.url);
-  // }
-
-  public getBooksBySubject(subject: string): Observable<WorkModel[]> {
+  public getRandomBookList(subject: string): Observable<Book[]> {
     const SUBJECT_URL: string = `https://openlibrary.org/subjects/${subject}.json`;
-
     return this.http.get(SUBJECT_URL, {
       params: {details: "false", limit: "12", sort: "random"}
-    }).pipe(
-      map((results: any) => {
-        return this.mapBooks(results.works) //moi je sais qu'il y a les works
-      })
-    )
-
-  }
-
-  // !! qualifiers private et public
-  private mapBooks(bookResults: any[]): WorkModel[] {
-    if (!bookResults) return; //early return, toujours
-    return bookResults.map(bookResult => {
-      return { //mapper unitaire
-        title: bookResult.title,
-        key: bookResult.key,
-        authors: bookResult.authors, //on pourrait mapper les autheurs avec un map dans author.service
-        first_publish_year: bookResult.first_publish_year,
-        cover_id:bookResult.cover_id,
-      }
     })
+      // je mappe le résultat de l'API back en mon modèle domaine Book
+      .pipe(
+        map((results: any) => {
+          return this.mapBooks(results.works)
+        })
+      );
   }
 
-  getSearchResults(search: string): Observable<any> {
-    const SEARCH_URL: string = `https://openlibrary.org/search.json?q=${search}`;
-
-    return this.http.get(SEARCH_URL);
+  private mapBooks(bookResults: any[]): Book[] {
+    // if (!bookResults) return;
+    return bookResults.map(this.mapBook);
   }
 
-  getBookDetails(book: BookDetailModel): Observable<any> {
-    const QUERY_URL: string = `http://openlibrary.org/query.json?type=/type/edition&works=${book.work_key}&authors&publish_date&description`;
-    const SEARCH_URL: string = `https://openlibrary.org/search.json?q=The%20Handmaid%27s%20Tale`;
+  private mapBook(bookResult: any): Book {
+    // if (!bookResult) return;
 
-    return this.http.get(SEARCH_URL);
+    let cover = "default";
+    if (bookResult.cover_id !== null) {
+      cover = bookResult.cover_id.toString();
+    }
+    const coverUrl: string = `https://covers.openlibrary.org/b/id/${cover}-L.jpg`;
+
+    let first_publish_year = "";
+    if (bookResult.first_publish_year !== null) {
+      first_publish_year = bookResult.first_publish_year.toString();
+    }
+
+    let url_open_library: string = `https://openlibrary.org${bookResult.key}`;
+
+    return {
+      title: bookResult.title,
+      authors: bookResult.authors,
+      cover_url: coverUrl,
+      first_publish_year: first_publish_year,
+      subjects: bookResult.subjects,
+      work_key: bookResult.work_key,
+      url_open_library:  url_open_library,
+    }
   }
 }
